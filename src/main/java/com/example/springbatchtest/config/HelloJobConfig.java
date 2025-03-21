@@ -20,6 +20,7 @@ public class HelloJobConfig {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
 
+    // helloJob() 의 반환 값인 Job객체가 Spring 컨테이너의 Bean으로 등록된다.
     @Bean
     public Job helloJob() {
         return new JobBuilder("helloJob", jobRepository)
@@ -34,7 +35,7 @@ public class HelloJobConfig {
         return new StepBuilder("helloStep", jobRepository)
                 // tasklet은 Step 내부에서 수행할 작업을 정의하는 인터페이스
                 .tasklet((contribution, chunkContext) -> {
-                    log.info("Hello Spring Batch!");
+                    log.info("Step1 실행!");
                     return RepeatStatus.FINISHED;
                 }, transactionManager)
                 .build();
